@@ -37,6 +37,38 @@ in plain language — all on your Mac, nothing sent to the cloud.
 - **Monitoring is metadata-only:** Dolphin watches protocols/addresses/ports/
   sizes/timing — not your message contents. It does **not** block anything.
 
+## Troubleshooting — OTORO shows "Offline" / "Configured model not found"
+
+On the first run, OTORO downloads a **~2 GB local model** (needs internet, can
+take several minutes). On a slow or interrupted first run you may see **OTORO
+Offline** with **"Configured model not found: raymondpianta/otoro-mini:latest."**
+Nothing is wrong with your install — the model just hasn't finished downloading.
+
+**Fix it manually with Dolphin's bundled engine** (no extra install needed):
+
+```bash
+# 1. (Only if needed) start Dolphin's bundled engine in a Terminal tab:
+/Applications/Dolphin.app/Contents/MacOS/ollama serve
+
+# 2. In another Terminal tab, pull the local model (~2 GB, needs internet):
+/Applications/Dolphin.app/Contents/MacOS/ollama pull raymondpianta/otoro-mini:latest
+
+# 3. Confirm it's installed:
+/Applications/Dolphin.app/Contents/MacOS/ollama list
+#    you should see: raymondpianta/otoro-mini:latest
+
+# 4. Reopen Dolphin → OTORO → click "Test OTORO" → it should show "OTORO Ready".
+```
+
+Notes:
+- This runs **entirely on your Mac** — the model is local; **no packet data or
+  traffic is sent to the cloud**, and Dolphin still only observes **metadata** and
+  **never blocks** anything.
+- If `ollama serve` says the address is already in use, the engine is already
+  running — skip step 1 and go straight to the `pull`.
+- A smoother in-app first-run download (with a visible progress bar) is coming in
+  the next beta update.
+
 ## Quick test checklist (after install)
 - [ ] Start monitoring → header shows **"Monitoring active"**
 - [ ] **Wi-Fi Check** shows live packets
